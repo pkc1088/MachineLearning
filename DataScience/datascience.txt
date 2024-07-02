@@ -1,0 +1,402 @@
+
+==Types of Data==
+
+4. Data -> information -> knowledge -> wisdom 방향으로 도출 됨. 
+11. categorical data : 명목형, numerical data (Discrete, Continuous)로 구분됨
+12. 밑으로 갈수록 이전의 속성 가져감. nominal : 같은지 다른지 분류 가능, ordinal : 비교가 가능함, internal : ordinal 적인 특성인데 간격이 같음 즉 크기 비교뿐만 아니라 덧셈 뺼셈 가능, ratio : 기준점을 가진 데이터가 위의 속성들을 가짐; 체온은 0도를 기준으로 말함.
+13. kelvin은 절대 0도를 기준으로 잡으니 ratio임. 날짜 간격과 섭씨 화씨의 온도간 간격은 일정하니 interval임. 키의 수치는 ratio이지만 고저를 나누는 것은 ordinal임. 유저 id가 같은지 비교하는 것은 nominal이다 분류가 가능하니. 몸무게는 ratio임 (2배 늘었다 줄었다를 구분할 수 있으니). 
+17. ~18.  넘어감
+22. ~26. 넘어감
+23. object와 record로 이루어진 structured data임.
+24. 뒤는 참고만
+
+==python==
+
+- list는 원소 넣은 후 list + 2하면 에러
+- np.array로 선언된 배열은 +2해주면 원소들 다 +2됨
+
+==Pandas==
+ 
+- dataframe은 column 별로 다른 type을 저장 가능
+- series는 numpy array로 구현되었기에 사이즈 조절 불가 인듯? 근데 되기도 함
+-  pd.DataFrame.from_dict(data), pd.DataFrame.from_dict(data, orient='index') 차이 알기
+- type(cones.loc[:, ['Flavor']]) 은 dataframe이고 type(cones['Flavor'])은 series이다.
+- 데이터들 중 가장 키가 큰 데이터 정렬해서 찾아내는 식으로 문제 나올 수 있음.
+- cones.where(filter, inplace=False) inplace는 원본 데이터에 반영할것인가 아닌가 결정.  <- 추천하는 방식 아님.
+- filter = cones['Flavor'] == "chocolate". cones.loc[filter] 이 방식 이용. case sensitive함
+- nba_renamed = nba.copy(deep='all') # deep=True only works for the data. all이 아니라 true로 하면 제대로 깊은 복사 안되는 듯. all로 해야 완전 새로운 데이터프레임을 만듦. 
+- minard_cities = minard_cities.iloc[:, 1:] 이렇게 하면 0번째 칼럼 빼고 복사시킴(즉 0번쨰꺼 제거)
+-  Rename column 'city' to 'city name', inplace=False. 만약 minard.rename(columns={'city': 'city name'}) 라고만 하면 반영 안되고 앞에 minard = 를 붙여줘야 바뀐 minard가 원본에 대입됨. 그게 귀찮으면 inplace = true 조건을 넣어주면 됨
+- minard.iloc[:,2]는 특정 열(세로) 출력, minard.iloc[2]는 특정 행(가로) 출력.
+- minard.loc[5]와 minard.iloc[5] 차이 알기
+- minard[['long']] # returns a DataFrame 처럼 대괄호 두번쳐야 데이터프레임으로 반환함. 하나만 쳐주면 array로 반환
+
+==Visualization==
+
+- plt.scatter()로 그려도 되고 actors.plot.scatter()로 그릴 수도 있음.
+- 31. true false 설정해서 작은 값 포함할지 안할지 결정하는 듯
+
+
+----
+----
+
+
+==Randomness==
+
+28. 적어도 한 번은 head가 나올 확률 계산. 
+30. 100명 중 뽑고 다시 넣지 않을 때 2명 뽑아서 rick과 morty 있을 확률
+36. games라는 데이터프레임만들어서 각 로우에 게임 결과 저장 시킴.
+37. 선택을 switch 하는게 좋다는 결과가 나옴.
+
+==Sampling and Empirical Distributions==
+9. Random sample은 무작위가 아니라 각각의 서브셋이 뽑힐 확률을 랜덤하게 하는거임. start 자체는 랜덤인데 iloc으로 10 단위로 뽑으니까. start가 3이면 3, 13, 23, 33의 셋이 뽑힘. (systemetic sampling 인 듯)
+10. 뽑고 샘플을 다시 집어 넣냐 안 넣냐 차이.
+12. population이 뭔지, 각각의 서브셋이 뽑힐 확률이 알아야 진정한 random sample 이라 할 수 있는 듯. 
+15. 확률 분포 : random한 양에 대한 정의. 이론상의 분포라 theorical distribution이라 할 수 있음
+16. 실험등의 관찰 결과에 기반한 분포. empirical distribution이 많아지면 theorical distribution에 가까워짐
+18. np사용법과 df 사용한 방법.
+19. sample size인 n을 받아서 n의 사이즈에 따라 어떻게 달라지는지 보는건듯
+20. 이론적으론 1/6이 나와야하나 10개의 경우는 ununiform함. n 늘릴 수록 uniform하게 형성됨. 
+22. repeated many times일수록 이론분포에 가까워짐
+23. sample size가 커질수록 이론분포에 가까워짐
+
+
+==Aessing a Model==
+32. random selection, population proportion 둘 중 문제가 발생되었을 수 있음. 
+
+==Comparing Distribution==
+2. a는 흑인케이스, b는 mendel 케이스와 유사 (distance 사용). 
+9. eligible과 panels의 차이를 봄. 두 분포의 distance를 구함. 
+10. wide format : 컬럼 각각이 어트리뷰트 하나를 설명. 어트리뷰트가 추가될 수록 넓어짐. long format : 어트리뷰트 추가되면 밑으로 길어짐. 
+13. 파란색과 녹색은 비슷함. 모댈이 잘못된게 확인됨. 
+16. 두 분포의 엘리먼트들 간 차를 구함. difference의 sum은 0이 됨. 그걸 막으려고 abs로 취하는 듯. 
+17. 그래서 그 abs 취한 값들의 sum을 2로 나눈걸 TVD로 쓰는듯. 이걸로 accessing model의 첫 단계를 해결함. 이제 시뮬레이션 하면됨. 
+20. tvd값과 차이 많이 나음 알 수 있음 -> 이 모델이 데이터들을 대표하지 못한다. 
+24. null hypothesis는 관측값의 차이가 랜덤(우연)에 의해 발생됐다고 봄. alternative는 그렇게 보진 않음. 
+
+==Decisions and P-value==
+- pvalue가 convetional cutoff 5%보다 작으면 통계적으로 유의미한 차이가 났다라고 보는 것이며 이는 alternative 가설을 support함 (즉 null 가설을 reject함)
+- p-value가 0.01이라면, 귀무가설이 참일 때 이런 데이터가 나타날 확률이 1%에 불과합니다. 이는 관찰된 데이터가 귀무가설과 상당히 일치하지 않음을 나타내므로, 연구자는 귀무가설을 기각하고 대립가설을 채택하게 됩니다..
+
+
+==A/B testing==
+3. p-value는 확률임. alternative를 support하는 방향은 test statustuc 면적이 작은 쪽인 노란색 파트가 p value에 해당되는 듯. 
+5. 일반적으로 5%를 cut off로 설정해서 가설검정 전에 선택함. 
+6. null이 true임에도 5% 확률로 null 가설을 리젝트할 수 있음. 
+9. 흡연자 중 술 마시는지 안 마시는지, 비흡연자 중 술 마시는지 안 마시는지 구해서 그 둘을 비교해볼 때 사용하는 방식. 
+10. 이런 자료는 randomized control  ~ 자료가 아니라 observation study data 이다.이 자료를 흡연자 여부에 따라 A/B로 나눠 신생아 몸무게에 대해 비교해봄.
+13. null 가설 : 데이터를 생성하는데 필요한 step들을 제공함. 이게 chance alone인가 아니다 다른 요인들이 있다로 구분 가능. 이땐 chance alone이다라고 가정하는 듯. (즉 null은 두 그룹간 차이가 없다 단순히 운빨로 크기 차이가 나는거라고 가정함) alternative : 담배 핀 그룹의 신생아 몸무게가 낮다는 가설을 세움. (셋팅해서 요인들이 작용한다는 가설을 세움). 
+14. 가설 검증할 수 있는 test statistic을 설정. alternative를 suporting 하는 방향은 negative value가 나옴(담배 피는게 몸무게 더 많이 나가니). 
+15. null은 이 레이블들을 다 섞어서(smoke, nonsmoke) test statistic 값 구해도 똑같을 것이다 라는 입장. 
+16. 레이블을 섞어서 이 레이블에서 smoke와 nonsmoke 몸무게 구해봄. 
+17. null이 true일 때 test statistic의 분포를 구할 수 있게 됨(?). 
+25. pvalue는 negative 방향을 구함. 
+27. empirical_p = np.count_nonzero(differences <= observed_difference) / repetitions 이 방식으로 pvalue를 구함. 구해보면 0 나옴.  cut off가 5%인걸 설정 해줘야 하긴 함. 분석 결과 차이가 없다는 NULL 가설을 reject 함을 증명함. 즉 randomness로 차이가 나온게 아니라 차이를 만드는 요인이 있음. 
+29. A라는 행위가 B를 이끈건 아님. observation data이기 떄문에 A와 B 간 상관관계가 있어보인다 뿐임. 그래서 이 질문은 대답 할 수 없음. 
+
+==Causality==
+4. 이전에는 인과관계를 얘기할 수 없고 통계적 관계만 얘기했는데 causality는 인과관계를 얘기할 수 있음.
+6. treatment가 효과있는지 보기 위해 비교군을 나눔. (control : 위약을 준 그룹). 
+9. 16명의 treatment 그룹에 포함되었을 시의 포텐셜은 모름
+13. 초록색 비율이 자연치유가 되는 사람들임. 그런 사람들이 각 그룹에 다른 비율로 포함될 경우 변인통제가 안된 상황임. 
+14. 트리트먼트는 효과가 없다 결과 차이가 난다면 운빨 뿐이다가 널가설임. alternative가설은 트리트먼트 그룹이 control 그룹보다 1이라 답한(yes) 점수가 더 높을 것이다고 가정. (그룹 간 결과가 다르다라는 가설을 세울 수 도 있으나 여기서는 treatment 점수가 control 보다 크다라고 셋팅한 것 뿐임)
+15. 이제 가설을 test statistic으로 검증한다. treatment 점수 - control 점수가 statistic이 된다. 이때 alternative는 양수값을 support 한다. 그래서 저 방향으로 p값을 계산해야함(?).
+17. 그룹별 인원수 달랐으니 퍼센트 비율로 나눠보면 12.5%와 60%가 나옴. mean_diff : 0을 기준으로 잡고 varaiance를 보는 듯. 0.475가 observed test statistic 값이다. 
+21. p값이 cut off 보다 작음 -> alternative를 선택함.
+- 만약 alternative가 treatment > control이 아니라 treament != control 이라면 어떻게 될 지 수정해보기 -> def mean_diff에서 return할떄 "proportions[1] - proportions[0]" 이걸 "np.abs(proportions[1] - proportions[0])"으로 만듦.
+23. null과 alternative 둘 다 아닌건 없다. 
+24. 넘어감
+25. observations 커지면 검정력은 커짐. 
+28. 7의 경우 7보다 같거나 작은건 4개이므로 5개중 4개는 80%. 
+29. 1.5 기준으로 outlier 결정하는 듯
+
+==Estimation==
+7. 넘어감
+19. 샘플을 랜덤하게 뽑으니 estimate 값이 매번 달라짐. 
+22. replacement를 true로 할 거임. 그래서 랜덤하게 샘플해도 오리지널 샘플에서 뽑아낸것과 동일한 효과를 얻음.
+29. 부트스트랩 방식으로 우리가 가진 하나의 샘플을 리샘플 해서 거기서 미디어 값들을 5천번 반복한 것들의 분포임.
+31. 부트스트랩으로 95% 컨피던스 인터벌을 구한 모습. 
+32. 범위가 넓으면 confidence가 높음 (약속 시간 안에 도착할 확률). 인터벌안에 true 값이 있을 확률을 말하는게 아님. 
+33. 95%들은 파라미터를 포함한다는 그림. 답은 초록색이고 찍을 확률이 노란색들임. 우린 답을 알고 있기에 찍었을 때 확률이 0인걸 알기에 confience가 확률을 말하는건 아닌듯. 
+34. replace = false가 오리지널 샘플이란 뜻. 
+
+==Center and Spread==
+5. mean, distribution으로 해결. 
+9. median값 변화 없으나 mean은 바뀜. 
+11. symmetric한 distribution에서는 mean = median임.
+14. skewed to the right(오른쪽으로 꼬리가 긺). skewed 된 값은 평균보다 median이 적음. 
+25. 평균에서 2.29 SD 만큼 떨어져있다는 뜻. 맥시멈도 이 정도 SD 만큼 밖에 안 떨어져 있음. 미니멈도 마찬가지. 즉 3 SD 안에 다 포함된다. 
+30. 3SD라면 3SD안에 1-1/3^2인 8/9 데이터가 적어도 존재한다는 뜻. 
+42. *시험가능* 표만 보고 평균과 standard deviation 찾아야함. 1에 가까운 값은 평균에서 1SD 큰 값임. 0은 평균. (SD는 6살인듯)
+47. 센터기준으로 좌우로 곡률 변하는 변곡점(66.5 지점 정도)이 standard deviation이다(?). 
+
+==Normal Distribution==
+7. 중간고사 91점은 1.16SD만큼 잘봤다는 뜻. 
+10. 히스토그램이 벨 쉐입일때 평균 기준으로 좌우에 변곡점이 있을 것이고 이걸 normal distribution이라 부름. 
+12. (x-뮤)^2 때문에 평균 기준으로 좌우가 symmetric함. 식의 분모 때문에 데이터가 얼마나 커지는지 조절하는 파트임.  뮤가 커지면 그레프가 오른쪽으로감. 분모가 달라지면 그래프가 뾰족해질 수 있음. 
+13. standard deviation (Z)이면 뮤가 0이고 standard deviation이 1임.  
+14. 변곡점 위치가 standard deviation 위치가 됨. 
+25. 샘플 사이즈 키우면 벨 쉐입에 가까워짐. 
+29. 1 : no, 2 : no(백만번 던지거에서 값 하나일 뿐이니), 3 : yes(CLT 이론 때문에)
+
+==Sample Means==
+- sameple means들은 normal distibution을 따름.
+10. 이전 극한식에서 분모의 시그마 값이 작으면 밑에 그림처럼 센터가 뾰족하고 값이 크면 위에 그림임. 
+11. 샘플사이즈 클때 더 뾰족함. 
+18. 샘플사이즈를 100에서 400으로 올림. 100에서 400은 4배인데 population/sample mean SD는 2차이. 
+19. 샘플 늘어날수록 SD of sample mean은 작아짐
+25. 1 : b. 2 : c
+32. normal이냐 normal이 아니냐를 묻는거임. normal이면 2SD 안에 95%가 있어야함. 센터가 65000이고 1SD가 45000이고 2SD이면 90000이니  normal이 아니다. 정답은 B이다. 
+34. 가운데가 70이여야함. 10/루트100이면 SD는 1이다. 2SD범위안에 대부분 값이 포함되어있는지 봐야함. 2SD이면 2이고 2안에 95%포함되어 보이는건 A임. 
+
+==Sample Size==
+6. 두 번째는 랜덤 샘플 100중 하나 뽑아낸 샘플 하나의 SD인듯. 마지막 케이스의 마지막 문장 뭔가 이상하다함. 
+11. population mean이 가운데에 있고 (sample average에 대한 distribution을 그렸을때), 2SD안에 population n을 sampling한 모든 조합이 그 distribution안에 있을텐데 그 내부 중 95%의 샘플은 2SD안에 population average를 찾을 것이다.
+13. 가지고 있는 샘플에서 replace true로 해서 부트스트랩 샘플링을 함. 부트 스트랩 샘플의 mean들을 모음. 두번쨰 def는 샘플 하나에서 +2SD, -2SD해서 95% 설정하는건듯. 
+15. 해보면 부트스트랩이랑 거의 일치하게 나옴.
+25. population SD maximum = 0.5
+26. 4만개의 샘플을 모아야 1%대로 들어올 수 있는 듯. 
+28. 각 방향 3프로니까 width 6%. 
+
+
+
+  ==Data Science==
+- Excluded Topics (based on PDF slides): 
+- 교과목 개요
+- 데이터과학개요
+- Types of data (from p.17 to the end)
+- Principle of Visualization
+- Seborn example
+
+
+- Data Science : is an inter-disciplinary field that uses scientific methods, processes, algorithms and systems to extract knowledge and insights from many structural and unstructured data
+- statistics(draw robust conclusions), computing
+- association, causality(인과관계), confounding factors(교란변수) - When they lead researchers astray. 
+- association do not imply causations.
+- Random != Haphazard(무계획) in 확률 이론
+- DIKW (data, information, knowledge, wisdom)
+- data : 의미가 중요하지 않은 객관적인 사실, 타 데이터와의 상관관계가 없는 가공하지 전 순수한 수치나 기호 (마트에서 팔고 있는 3가지 품목과 그 가격) - gathering of parts
+- information : 데이터 간 연관관계 속에서 의미가 도출된 데이터, 해석이 들어간 데이터(B마트의 라면 가격이 저렴하다) - connection of parts
+- knowledge : 다양한 정보를 구조화하여 유의미한 정보를 분류하고, 고유의 지식으로 내재화 된 것 (상대적으로 저렴한 B마트에서라면을 사자) - formation of a whole
+- wisdom : 근본 원리에 대한 깊은 이해를 바탕으로 도출된 창의적인 아이디어 (B마트의 3가지 상품도 A마트 보다 저렴하니, 다른 제품도 B마트에서 사자) - joing of wholes
+- DIK는 past이고 experience, W는 future이고 novelty(새로움)
+- attribute is a property or characteristic of an object
+- A collection of attributes describe an object
+- objects가 row이고 attributes가 column이 됨
+- 12pge 필기
+- 1. **범주형 변수 (Categorical Variables):**
+    - 범주형 변수는 명목형(nominal)과 순서형(ordinal)으로 나뉩니다.
+    - 명목형 변수는 범주 간의 순서가 없는 변수입니다. 예를 들어, 성별, 혈액형, 지역 등이 명목형 변수의 예시입니다.
+    - 순서형 변수는 범주 간에 상대적인 순서가 있는 변수입니다. 예를 들어, 학점(A, B, C 등), 만족도(매우 만족, 만족, 보통 등)가 순서형 변수의 예시입니다.
+2. **수치형 변수 (Numerical Variables):**
+    - 수치형 변수는 이산형(discrete)과 연속형(continuous)과 으로 나뉩니다.
+    - 이산형 변수는 불연속적인 값을 가지는 변수로, 정수 값을 가집니다. 예를 들어, 나이, 가족 구성원 수, 주문 수량 등이 이산형 변수의 예시입니다.
+    - 연속형 변수는 연속적인 값을 가지는 변수로, 무한한 값을 가질 수 있습니다. 예를 들어, 온도, 키, 무게 등이 연속형 변수의 예시입니다.
+- 밑으로 갈수록 이전의 속성 가져감. nominal : 같은지 다른지 분류 가능, ordinal : 비교가 가능함, internal : ordinal 적인 특성인데 간격이 같음 즉 크기 비교뿐만 아니라 덧셈 뺼셈 가능, ratio : 기준점을 가진 데이터가 위의 속성들을 가짐; 체온은 0도를 기준으로 말함.
+- kelvin은 절대 0도를 기준으로 잡으니 ratio임. 날짜 간격과 섭씨 화씨의 온도간 간격은 일정하니 interval임. 키의 수치는 ratio이지만 고저를 나누는 것은 ordinal임. 유저 id가 같은지 비교하는 것은 nominal이다 분류가 가능하니. 몸무게는 ratio임 (2배 늘었다 줄었다를 구분할 수 있으니). 
+
+**python - numpy**
+- 14pge 에러 원인
+- 변수 a에 저장할 때 혹은 print()할 때도 int타입 + 문자열 타입은 안됨
+- from datascience import *
+  import numpy as np
+- from google.colab 
+  import drive drive.mount('/content/drive')
+- datascience : make_array("noun")
+- numpy : np.array(["noun"])
+- cones=Table.read_table('/content/drive/MyDrive/cones.csv')
+- cones.show(3) : row 3개 출력
+- show()는 전체이고 안 붙이면 기본 10개
+- cones.select('Flavor') : Flavor의 column들 모두 출력
+- cones.drop('Flavor') 해도 출력만 드롭된거 보이지 다시 cones 치면 정상적으로 있음
+- cones.where('Flavor', 'chocolate') : Flavor가 chocolate인 row들만 출력
+- cones.sort('Price') : 가격으로 오름차순 정렬
+- cones.sort('Price', descending=True) : 내림차순 정렬
+- nba = Table.read_table(~).relabeled(3, 'SALARY') : 0부터 시작이고 3번째에 라벨이름을 샐러리로 바꿈 
+
+**pandas**
+- panel은 three-dimensional data structure (3D Array) with heterogeneous data
+- series는 1D, column. homogeneous. immutable size
+- dataframe은 2D, collection of series. heterogeneously. mutable size, Labeled axes(축), 컬럼 타입 다르게 가능, 로우와 컬럼에 arithmetic op가능. 
+- df는 Lists. dict, Series, Numpyndarrays, Another DataFrame 등을 담을 수 있음
+- from google.colab import files 
+  file_uploaded = files.upload() 이걸로 업로드하고
+  movies_df = pd.read_csv("IMDB-Movie-Data.csv", index_col="Title") 이렇게 바로 읽을 수 있음
+- df.head() 는 위에서 부터 기본 5개, tail()은 밑에서 5개
+- df.info()는 provides the essential details about the dataset
+- temp_df = pd.concat([movies_df, movies_df]) 이걸 쓴다 movies_df.append(movies_df)는 사장됨.
+- temp_df = temp_df.drop_duplicates() 이건 그대로 사용
+- movies_df['Genre'].describe() 장르로 정보 묘사
+- 테이블에서는 no_colors = cones.drop('Color')
+- df에서는 no_colors1 = cones1.drop(columns='Color')
+- cones1.drop(labels = 'Price', axis=1)에서 axis가 1이면 칼럼 말하는거고 price 칼럼 삭제
+- cones_df.drop(labels=2,axis=0) 여기서 axis 0은 row말하는거고 2번째(0부터시작) row 삭제
+- cones.sort('Price', descending=True) 이건 테이블
+- cones_df.sort_values(by=['Price'], ascending=False) 이건 데프
+- a column of a table is an array of values
+- `cones.iloc[0:2, :]` 0~2row와 :는 모든 column 선택
+- cones.where(filter, inplace=False) inplace는 원본 데이터에 반영할것인가 아닌가 결정.  <- 추천하는 방식 아님.
+- filter = cones['Flavor'] == "chocolate". cones.loc[filter] 이 방식 이용. case sensitive함
+- 간단히 말해서, `loc`은 라벨을 사용하고 `iloc`은 정수 위치를 사용합니다.
+
+
+  ## ***Randomness
+ - `np.random.choice(arr, size=None, replace = True, p=None)` : p는 a의 엔트리와 연관된 확률이다. non이면 uniform distribution.
+ - replace가 True이면 복원추출이라 세 번 뽑을 때 (1, 1, 3)이 나올 수 있고 False면 비복원추출이다. 
+ - Chance that two events A and B both happen = P(A happens) x P(B happens given that A has happened). 즉 P(AnB) = P(A) x P(A|B)
+- *37pge의 groupby*
+
+## ***Sampling and Empirical Distribution***
+- population(모집단), sample(표본)
+- *Sampling Methods* 
+    1. **Probability Sampling**(Systemetic, Random) 
+    2. **Non-Probability Sampling**(Deterministic, Convenience).
+- *Deterministic sample* : simply specify which elements of a set you want to choose. sampling scheme doesnt involve chance.
+- *Random sample* : 무작위가 아니라 각각의 서브셋이 뽑힐 확률을 랜덤하게 하는거임. start 자체는 랜덤인데 iloc으로 10 단위로 뽑으니까. start가 3이면 3, 13, 23, 33의 셋이 뽑힘. (systemetic sampling 인 듯). before the sample is drawn, you have to know the selection probability of every group of people in the population. Not all individuals / groups have to have equal chance of being selected
+- *Random sampling with replacement* : 뽑고 다시 집어넣음(np.random.choice 기본). 
+- *Simple random sample* : 안 집어넣음 (np.random.choice에서 replace = False 셋팅해야함).
+- 모집단이 얼마이고, 그 모집단의 각 집단이 뽑힐 확률을 알아야 진정한 random sample 이라 할 수 있다. 
+- *Probability Distribution* (확률 분포) : random한 양에 대한 정의. 이론상의 분포라 theorical distribution이라 함. For all the possible values of the quantity. The probability of each of those values
+- *Emprical Distribution* : based on observations & experiments. empirical distribution이 많아지면 theorical distribution에 가까워짐. All observed unique values. the proportion of times each value appears.
+- If a chance experiment is repeated many times, independently and under the same conditions, then the Empirical Distribution gets closer to the Probability Distribution.
+- repeated many times일수록 이론분포에 가까워짐. sample size가 커질수록 이론분포에 가까워짐
+- *Inference* : sample data -> population을 유추.
+- *Statistical Inference* : making conclusions based on data in random samples. 
+- parameter(모수 - 모집단의 특성), statistic(통계량 - 표본에서 계산된 수)
+- a statistic can be used as an estimate of a parameter. 즉 statistic은 parameter를 알아내기 위한 도구 역할이다. 
+- (모집단에서 추출한) 표본의 평균인 통계량을 이용해서 모집단의 평균인 모수를 추정(inference)한다. 즉 모집단-한국인, 모수-평균키 일때 전수조사가 어렵기에 모집단을 대표하는 표본을 랜덤추출해서 표본의 평균 키-통계량을 계산해 만듦.
+- *Probability (Sampling) Distribution of a statistic* : All possible values of the statistic, and all the corresponding probabilities. values of a statistic vary because of random samples
+- *Empirical distribution of the statistic* : Based on simulated values of the statistic, Consists of all the observed values of the statistic and the proportion of times each value appeared.
+
+## ***Assessing a Model
+- *Models* : a set of assumptions about the data
+- `np.random.multinomial` : 다항 분포에서 표본을 추출합니다.
+- Bias : 오류(오차)가 항상 한 쪽 방향으로 생겼을때 bias라고 함.
+- 맨델 법칙으로 75% 확률로 자주색 꽃이고 25% 확률로 하얀색이다.
+- 이때 자주색 꽃이 75보다 지나치게 크거나 작으면 위 모델을 거스르는 증거가 된다.
+- statistic : |자주색 꽃의 sample percent - 75| 로 셋팅하고 이 통계량이 크면 모델을 거스르는 증거가 됨.
+- *즉 statistic은 모델에 불일치하는 측정으로 셋팅하고 모델의 가정 하에 시뮬레이팅을 해서 결과 값을 비교한다.*
+- 만약 observed statistic이 히스토그램(시뮬 돌린거)으로부터 멀리 떨어져 있다면 그것은 모델을 반박하는 증거가 된다. 
+
+## ***Comparing Distributions
+- 실제 eligible(자격있는) jury의 분포와 시뮬 돌린 분포가 비슷한데 현실에선 패널의 분포가 다르다는건 문제가 있는 모델인거다. 즉 차별이 있었다. 
+- *TVD (total variation distance)* : 두 분포의 차를 구한 후 절대값을 취하고 이것들을 모두 더한 뒤 2로 나눈다. `sum(abs(dist1 - dist2))/2`
+- 빨간점인 tvd값과 히스토그램간 차이 많이 나음 알 수 있음 -> 이 모델이 데이터들을 대표하지 못한다. 즉 패널들이 eligible한 jurors에 대한 공정한 분포를 띄지 못한다.
+- To assess whether a sample was drawn randomly from a known categorical distribution, Use TVD as the statistic because it measures the distance between categorical distributions
+- *Testing Hypothesis* : The test picks the hypothesis that is better supported by the observed data
+- *Null hypothesis* : A well defined chance model about how the data were generated. 관측값의 차이가 랜덤(우연)에 의해 발생됐다고 봄
+- *Alternative hypothesis* : A different view about the origin of the data
+- *Test Statistic* : The statistic that we choose to simulate, to decide between the two hypothesis
+- Prediction Under the Null Hypothesis : Simulate the test statistic under the null hypothesis. draw the histogram of the simulated values. *This displays the empirical distribution of the statistic under the null hypothesis*. It is a prediction about the statistic, made by the null hypothesis. It shows all the likely values of the statistic. Also how likely they are (if the null hypothesis is true).
+- Conclusion of the Test : Resolve choice between null and alternative hypotheses. *Compare the observed test statistic and its empirical distribution under the null hypothesis. If the observed value is not consistent with the distribution, then the test favors the alternative (data is consistent with the alternative).* Whether a value is consistent with a distribution: A visualization may be sufficient. If not, there are conventions about “consistency".
+
+## ***Decisions and P-value
+- 상황 : 수업 조교(GSI)들이 12개 분반을 나눠 맡았는데 section 3 분반이 평균보다 낮은 점수를 기록함.
+- Null hypo (GSI's position) : 만약 우리 조교들이 랜덤하게 분반을 맡았더라도 이 분반 같은 꼴이 날 것이다.
+- Alternative : 낮은 점수를 기록한게 우연이 아닐 것이다.
+- `scores.groupby('Section')['Midterm'].mean('Midterm’) .reset_index(name='Midterm average')` : 각 분반별 평균을 구함.
+- `scores.groupby('Section')['Midterm'].count() .reset_index(name='count')` : 3분반의 명수인 27에 맞춰서 샘플링을 해줘야한다.
+- 즉 전체 데이터에서 27명을 뽑아서(이떄 replace = false) 평균을 구하는 행위를 5만번 반복하고 이걸 히스토그램으로 표현한다. 거기에 red dot에 해당하는 observed_average(3분반의 평균인 13.666)을 찍고 판단한다. 빨간점이 히스토그램 상에서 왼쪽으로 치우쳐져 있으니까 alternative를 서포트한다고 볼 수 있다. 왜냐하면 alternative 주장이 낮은 점수를 기록한게 우연이 아닐것이다였으니까. 즉 Null의 의견대로 test statistics를 랜덤하게 시뮬을 돌려도 13.666이란 수치는 낮은 점수이며 이는 우연이 아니라는 뜻. 
+- 빨간점 기준으로 alternative를 서포트하는 히스토그램의 면적이 p- value이다. p-value가 cutoff 5%보다 작으면 이 실험이 alternative를 서포트한다라고 볼 수 있다. 즉 statistically significant하다라고 말하며 통계적으로 유의미한 차이가 발생했다고 보는것이다 (니 실험이 잘못 됐다는 뜻). 즉 니가 말한대로 null(우연) 하게 시뮬을 여러번 돌려도 13.666(보다작은)이란 수치가 나올 확률은 5%보다 작다는 말이며 이는 우연적으로 이렇게 작은 수치가 나올 수 가 없으니 alternative를 서포트하는 거다.
+- 2000번 Coin tossing에서 statistic은 널(동전던지기는 공평하다)를 거스르는 alternative(동전던지기는 불공평하다)에 맞춰줘야 하기에 이 값 |number of head - 1000| 이 클수록 alternative를 서포트하게 된다. 저 절대값 값이 0에 가까울 수록 head와 tail이 나올 확률이 반반으로서 공평하다는 의미이며 절대값이 클수록 한 쪽이 나올 확률이 더 크다는 뜻이니.  2천번 시뮬했고 노란선은 5%를 나누는 cutoff 지점임. cut off 45보다 크면 동전던지기는 불공평하다는 증거의 샘플이 되는거임. 즉 45보다 큰 영역 합이 p-value가 되며 그 비율이 0.0485일 경우 0.05 보다 작으니 alternative를 서포트해서 동전던지기는 불공평하다는 가설을 서포트함.
+
+100번 던졌을 때 앞면이 90번 나왔다고 합시다. null가설 하에서는 이런 극단적인 결과가 나올 확률이 매우 낮습니다. 이 때의 p-value가 0.01이라면, 이는 null가설 하에서 이런 결과가 나올 확률이 1%라는 의미입니다. p-value는 null가설이 참일 때, 관찰된 통계량과 같거나 더 극단적인 값이 나올 확률입니다. p-value가 작다는 것은, 동전이 공평하다는 가정 하에 현재 관찰된 결과와 같은 정도로 불공평한 결과가 나올 확률이 매우 낮다는 의미입니다. p-value가 작다는 것 :이는 관찰된 결과가 NULL가설 하에서 나올 확률이 매우 낮다는 것을 의미합니다. p-value가 0.05보다 작다 : 동전이 공평하다는 가정 하에 관찰된 정도의 불공평한 결과가 나올 확률이 매우 낮다.
+
+## ***A/B test
+- *Red dot denotes the observed statistic, Yellow area denotes the tail probability (p-value).*
+- A : 비흡연자의 아이 몸무게 / B : 흡연자의 아이 몸무게
+- Null : 두 그룹은 같다. 차이가 발생한다면 우연때문이다.
+- Alternative : 흡연자의 아이 몸무게가 더 적게 나간다. (A>B)
+- statistic : smoker weight - nonsmoker weight : 음수가 나오면 alternative를 support함. 
+- smoker와 non-smoker 여부만 label 셔플해서 여러번 수행해보면 p-value가 0보다 적게 나와서 alternative를 서포트함
+- 0 for empirical p-value does not mean the exact chance of getting the observed test statistic is 0. why? Empirical distribution is an approximation of the probability distribution of the test statistic
+- Is lower birth weight caused by maternal smoking? -> 알 수 없다. individuals are not randomly assigned to each group이라서.
+## ***Causality
+- Data generation -> sample data -> hypo testing -> conclusions.
+- sample A : control group(위약) / sample B : treatment group(치료제)
+- 만약 그룹 a, b가 랜덤하게 선택됐다면 *causal conclusions*를 만들 수 있다. 유일한 차이가 treatment 여부 외엔 운 밖에 없으니.
+- RCT (Randomized Controlled Trial) : double blind study, randomized 
+- The sample distributions b/w population A and B are observed and are different
+- The group distributions b/w scores of A and B group are observed.
+- 자연치유가 되는 사람들이 각 그룹에 다른 비율로 포함될 경우 변인통제가 안된 상황임. 
+- Null : 모집단에서 control score의 분포와 treatment scores의 분포는 같다.
+- Alternative : treatment 그룹이 control 그룹보다 1 (pain relieved)라고 말한(yes) 점수가 더 높을 것이다.
+- Test Statistic : treatment 평균(B) - control 평균(A)
+- 양수가 alternative를 서포트한다.
+- 그룹별 인원수 달랐으니 control 16명의 result sum 2와 treatment 15명의 result sum 9를 각각의 비율로 구해보면 0.125, 0.600이 나옴 즉 0.475이 observed test statistic이다.
+
+## ***Estimation
+- The pth percentile is first value on the sorted list that is at least as large as p% of the elements *다시보기*
+- census(인구조사)가 없다면 모집단에서 random sample을 추출하고 statistic을 parameter의 estimate로써 사용한다. 
+- `pop_median = np.percentile(sf2019['Total Compensation'], 50, method='inverted_cdf')` : 모집단 데이터를 알기에 median은 이렇게 구함.
+- *Bootstrap* :  A technique for simulating repeated random sampling.
+- Use the same sample size as the original sample. The size of the new sample has to be the same as the original one, so that estimates are comparable. With replacement (복원추출). Draw at random. For each sample, compute the statistic and empirical distribution of the statistics
+- 부트스트랩 한 번해서 메디안 구하는 시뮬을 5천번한 메디안의 분포임. 빨간점(135747인 실제 메디안)과 가까이 위치하니 잘 섞인듯.
+- Very high or very low percentiles을 측정하려하거나 bell shape이 아니거나 샘플이 너무 적으면 부트스트랩 사용할 수 없다.
+- *95% confidence level* : estimates of a parameter의 interval을 의미함. 95%를 confience level이라 부름. 이 구간이 참 값(true value)을 포함할 것이라고 기대되는 비율을 나타냅니다. 신뢰 수준은 이 기대되는 비율을 퍼센트로 나타낸 것입니다.
+- 신뢰 구간(Confidence Interval) : 샘플 데이터로부터 계산된 구간으로, 모집단 파라미터가 이 구간 내에 있을 것이라고 믿는 구간입니다.
+- 신뢰 수준(Confidence Level) : 신뢰 구간이 참 값을 포함할 것으로 기대되는 비율입니다. 예를 들어, 95% 신뢰 수준이라면, 반복적인 샘플링을 통해 구한 신뢰 구간의 95%가 참 값을 포함할 것이라고 기대합니다.
+- 범위가 넓으면 confidence가 높음 (약속 시간 안에 도착할 확률). 인터벌안에 true 값이 있을 확률을 말하는게 아님. 
+- 95% 신뢰 구간을 해석할 때, "모집단 평균이 이 구간 안에 있을 확률이 95%다"라고 해석하면 안 됩니다.
+- 대신, "95%의 신뢰 수준으로, 이 구간이 모집단 평균을 포함한다"라고 해석해야 합니다.
+- 즉, 동일한 실험을 여러 번 반복하면, 그 실험에서 계산된 신뢰 구간의 95%가 모집단 평균을 포함할 것입니다.
+- By our calculation, an approximate 95% confidence interval for the average age of the mothers in the population is (26.9, 27.5) years 일 때 About 95% of the mothers in the population were between 26.9 years and 27.5 years old 라고 하면 False이다. We’re estimating that their average age is in this interval. There is a 0.95 probability that the average age of mothers in the population is in the range 26.9 to 27.5 years. 이것도 마찬가지로 False이다. There’s a 0.95 probability that the process will produce a CI that brackets the true average age.는 True임.
+- *Confidence interval for testing (CI)*
+- Null : population average = x / Alternative : population average != x / cutoff for p-value : p% 일때 (100-p)%의 confidence interval을 만들고 x가 인터벌 안에 포함되어 있지 않으면 null을 reject, 포함되면 null을 서포트한다. 
+
+## ***Center and Spread
+- If a property of random samples is true regardless of the population, it becomes a powerful tool for inference because we rarely know much about the data in the entire population
+- The distribution of the mean of a large random sample falls into this category of properties
+- The empirical distribution of the sample mean has almost always turned out close to bell-shaped, regardless of the population being studied
+- Mean: Balance point of the histogram / Median: 50th percentile of the data
+- *standard deviation (SD; 표준편차)* : SD measures roughly how far the data are from their average.
+- `(87 - mean_height) / sd_height` 가 2.29 나온다는건 평균에서 2.29 SD 만큼 떨어져있다는 뜻. 맥시멈(87)도 이 정도 SD 만큼 밖에 안 떨어져 있음. 미니멈도 마찬가지. 즉 3 SD 안에 다 포함된다. 
+- *Chebyshev's Inequality* :  No matter what the shape of the distribution,the bulk of the data are in the range “average ± a few SDs” is at least 1 - (1/z^2). 즉 3SD라면 3SD안에 1-1/3^2인 8/9 데이터가 적어도 존재한다는 뜻
+- *Standard units* = (original value - mean) / SD. 스탠다드 유닛 z값이 0이면 평균과 동일하다는 것이고 양수이면 평균보다 위라는 뜻. when values are in standard units : average = 0, SD = 1. 
+- 센터기준으로 좌우로 곡률 변하는 변곡점(66.5 지점 정도)이 standard deviation이다. 
+
+## ***Normal Distribution
+- PDF of x is defined as :
+- *normal distribution (정규분포)*. (x- μ)^2 때문에 평균 기준으로 좌우가 symmetric함. 식의 분모는 데이터가 얼마나 커지는지 조절하는 파트임. *분산^2이 작아지면 뾰족해짐. μ가 커지면 왼쪽으로 감*
+- standard deviation은  μ가 0이고 분산^2이 1임.
+- 만약 히스토그램이 bell shaped이면 3SD에 99.73% 데이터가 포함됨.
+- *샘플 사이즈 키우면 벨 쉐입에 가까워짐.* 
+- *Central Limit Theorem (CLT; 중심극한정리)* : 결과를 1,000개의 그룹으로 나누고 각 그룹에서 1,000개의 주사위 굴림 평균을 계산하면, 각 그룹의 평균값들은 대체로 3.5 근처에 모이게 될 것입니다. 이 경우, 중심극한정리에 의해 평균값들의 분포가 종 모양(정규 분포)에 가까워질 것입니다. 따라서 이 히스토그램은 종 모양이 될 것입니다.
+
+## ***Sample Means
+- If the sample is large, and drawn at random with replacement, Then, regardless of the distribution of the population, the probability distribution of the sample average is roughly normal, mean = population mean, sd = popul sd / root(sameple size)
+- 중심극한정리는 표본의 크기가 충분히 클 경우, 표본 평균의 분포가 원래 분포의 형태와 관계없이 정규분포에 가까워진다는 것을 말합니다.
+- 샘플사이즈 클때 더 뾰족함. 샘플사이즈를 100에서 400으로 올리면 100에서 400은 4배 커진건데 population/SD는 2배 커짐. 
+- *샘플 늘어날수록 SD of sample mean은 작아짐, 그래프는 더 뾰족.*
+- The gold histogram shows the distribution of 10,000 values, each of which is an average of 900 randomly sampled flight delays. The blue histogram shows the distribution of 10,000 values, each of which is an average of 400 randomly sampled flight delays.
+- *SD of sample means*  = (population SD) / 루트(sample size)
+- z점수 : *Z = (X−μ​) / σ*  : μ는 평균, σ는 표준편차입니다. 
+## ***Sample SIze
+- total with of 95% CI는 4 x (population sd) / root(sample size)
+- population SD값이 가장 큰게 maximum value of popul sd이고 worst case가 됨. 이걸 위 식에 넣으면 필요한 sample size를 구할 수 있음. 만약 total width that you'll accept이 1%라면 0.01 = 저 식에 maximum popul sd 넣으면 됨.
+- A researcher is estimating a population proportion based on a random sample of size 10,000. With chance at least 95%, the estimate will be correct to within 0.01
+- width = 4 x (0.5) / root(10,000) = 0.02 -> margin of error = 0.01
+- 만약 confidence level을 68%만 쓴다고 하면 2SD 영역 만큼만 쓰니까 4가 아니라 2를 넣음.
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
